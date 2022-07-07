@@ -24,14 +24,18 @@ data:
   script.sh: |
     oc login --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --server=kubernetes.default.svc --insecure-skip-tls-verify
     set -x
-    oc whoami
+    oc patch group techzone-multiarch-demo --patch {\"users\":$(oc get users -o json | jq -c ' .items | map(select( .identities[0] | contains("IBMid") )) | map(.metadata.name) ')}
+
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: users-read-only-workspace
 spec:
-  schedule: "*/5 * * * *"
+  ## Every 5 minutes
+  #schedule: "*/5 * * * *"
+  ## Every minute
+  schedule: "* * * * *"
   successfulJobsHistoryLimit: 0
   failedJobsHistoryLimit: 0
   jobTemplate:
