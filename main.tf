@@ -69,9 +69,8 @@ metadata:
   namespace: ${var.projects[0]}
 data:
   script.sh: |
-    oc login --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --server=kubernetes.default.svc --insecure-skip-tls-verify
     set -x
-    oc patch group ${var.group-name} --patch {\"users\":$(oc get users -o json | jq -c ' .items | map(select( .identities[0] | contains("IBMid") )) | map(.metadata.name) ')}
+    oc login --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --server=kubernetes.default.svc --insecure-skip-tls-verify && oc patch group ${var.group-name} --patch {\"users\":$(oc get users -o json | jq -c ' .items | map(select( .identities[0] | contains("IBMid") )) | map(.metadata.name) ')}
 YAML
 }
 
@@ -99,7 +98,7 @@ spec:
           serviceAccountName: configure-users-sa
           containers:
             - name: set-permissions
-              image: quay.io/aminerachyd/ibmcloud-dev:latest
+              image: quay.io/aminerachyd/ro-users-k8s:
               command:
                 - /bin/sh
                 - -c

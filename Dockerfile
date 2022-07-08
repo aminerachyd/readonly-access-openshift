@@ -1,3 +1,5 @@
+## This Dockerfile creates an UBI image with oc and jq
+
 FROM registry.access.redhat.com/ubi8:8.6-855
 
 USER root
