@@ -10,10 +10,10 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: policy-volsync-namespace
+          name: policy-self-provisioner-clusterrole
         spec:
           object-templates:
-            - complianceType: mustnothave
+            - complianceType: musthave
               objectDefinition:
                 apiVersion: rbac.authorization.k8s.io/v1
                 kind: ClusterRole
@@ -30,6 +30,27 @@ spec:
                       - projectrequests
                     verbs:
                       - create
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: user.openshift.io/v1
+                kind: Group
+                metadata:
+                  name: ocp-admins
+                users: null
+            - complianceType: mustonlyhave
+              objectDefinition:
+                apiVersion: rbac.authorization.k8s.io/v1
+                kind: ClusterRoleBinding
+                metadata:
+                  name: self-provisioners
+                roleRef:
+                  apiGroup: rbac.authorization.k8s.io
+                  kind: ClusterRole
+                  name: self-provisioner
+                subjects:
+                - apiGroup: rbac.authorization.k8s.io
+                  kind: Group
+                  name: self-provisioners
             - complianceType: mustonlyhave
               objectDefinition:
                 apiVersion: user.openshift.io/v1
@@ -40,6 +61,13 @@ spec:
                   {{- range .Values.users }}
                   - {{.}}
                   {{- end }}
+                      object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                kind: Namespace
+                apiVersion: v1
+                metadata:
+                  name: techzone-boutique-dev
             - complianceType: musthave
               objectDefinition:
                 apiVersion: rbac.authorization.k8s.io/v1
@@ -57,6 +85,12 @@ spec:
                     name: techzone-multiarch-demo
             - complianceType: musthave
               objectDefinition:
+                kind: Namespace
+                apiVersion: v1
+                metadata:
+                  name: techzone-boutique-test
+            - complianceType: musthave
+              objectDefinition:
                 apiVersion: rbac.authorization.k8s.io/v1
                 kind: RoleBinding
                 metadata:
@@ -70,6 +104,12 @@ spec:
                   - apiGroup: rbac.authorization.k8s.io
                     kind: Group
                     name: techzone-multiarch-demo
+            - complianceType: musthave
+              objectDefinition:
+                kind: Namespace
+                apiVersion: v1
+                metadata:
+                  name: techzone-boutique-prod
             - complianceType: musthave
               objectDefinition:
                 apiVersion: rbac.authorization.k8s.io/v1
