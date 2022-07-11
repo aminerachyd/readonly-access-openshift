@@ -35,7 +35,7 @@ spec:
                 apiVersion: user.openshift.io/v1
                 kind: Group
                 metadata:
-                  name: self-
+                  name: self-provisioners
                 users: null
             - complianceType: mustonlyhave
               objectDefinition:
