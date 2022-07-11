@@ -6,11 +6,7 @@ variable "cluster-token" {
   description = "Token of the cluster, needs admin privileges"
 }
 
-variable "group-name" {
-  description = "Group in which the users will be added"
-  default     = "techzone-multiarch-demo"
-}
-
-variable "projects" {
-  type = list(string)
+variable "project" {
+  description = "Name of the project to run the cronjob"
+  default     = "techzone-boutique-dev"
 }
