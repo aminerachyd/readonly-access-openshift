@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
-  name: binding-techzone-multiarch-demo-grp
+ name: binding-techzone-multiarch-demo-grp
   namespace: rhacm-policies
 placementRef:
   apiGroup: apps.open-cluster-management.io
@@ -12,22 +12,6 @@ subjects:
   - apiGroup: policy.open-cluster-management.io
     kind: Policy
     name: techzone-multiarch-demo
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  name: placement-techzone-multiarch-demo-grp
-  namespace: rhacm-policies
-spec:
-  clusterConditions:
-    - status: 'True'
-      type: ManagedClusterConditionAvailable
-  clusterSelector:
-    matchExpressions:
-      - key: cluster.open-cluster-management.io/clusterset
-        operator: In
-        values:
-          - 'demo'
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
@@ -46,15 +30,45 @@ subjects:
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
+  name: placement-techzone-multiarch-demo-grp
+  namespace: rhacm-policies
+spec:
+  clusterConditions:
+    - status: "True"
+      type: ManagedClusterConditionAvailable
+  clusterSelector:
+    matchExpressions:
+      - key: cluster.open-cluster-management.io/clusterset
+        operator: In
+        values:
+          - demo
+status:
+  decisions:
+    - clusterName: diamond
+      clusterNamespace: diamond
+    - clusterName: opal
+      clusterNamespace: opal
+    - clusterName: topaz
+      clusterNamespace: topaz
+    - clusterName: roks1
+      clusterNamespace: roks1
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
   name: placement-techzone-multiarch-local-cluster
   namespace: rhacm-policies
 spec:
   clusterConditions:
-    - status: 'True'
+    - status: "True"
       type: ManagedClusterConditionAvailable
   clusterSelector:
     matchExpressions:
       - key: name
         operator: In
         values:
-          - 'local-cluster'
+          - local-cluster
+status:
+  decisions:
+    - clusterName: local-cluster
+      clusterNamespace: local-cluster

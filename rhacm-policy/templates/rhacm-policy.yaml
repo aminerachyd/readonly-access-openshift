@@ -20,7 +20,7 @@ spec:
                 metadata:
                   name: self-provisioners
                 users: null
-            - complianceType: mustonlyhave
+            - complianceType: mustnothave
               objectDefinition:
                 apiVersion: rbac.authorization.k8s.io/v1
                 kind: ClusterRoleBinding
@@ -31,9 +31,23 @@ spec:
                   kind: ClusterRole
                   name: self-provisioner
                 subjects:
-                - apiGroup: rbac.authorization.k8s.io
-                  kind: Group
-                  name: self-provisioners
+                  - apiGroup: rbac.authorization.k8s.io
+                    kind: Group
+                    name: self-provisioner
+            - complianceType: mustonlyhave
+              objectDefinition:
+                apiVersion: rbac.authorization.k8s.io/v1
+                kind: ClusterRoleBinding
+                metadata:
+                  name: self-provisioner
+                roleRef:
+                  apiGroup: rbac.authorization.k8s.io
+                  kind: ClusterRole
+                  name: self-provisioner
+                subjects:
+                  - apiGroup: rbac.authorization.k8s.io
+                    kind: Group
+                    name: self-provisioner
             - complianceType: mustonlyhave
               objectDefinition:
                 apiVersion: user.openshift.io/v1
@@ -46,8 +60,8 @@ spec:
                   {{- end }}
             - complianceType: musthave
               objectDefinition:
-                kind: Namespace
                 apiVersion: v1
+                kind: Namespace
                 metadata:
                   name: techzone-boutique-dev
             - complianceType: musthave
@@ -67,8 +81,8 @@ spec:
                     name: techzone-multiarch-demo
             - complianceType: musthave
               objectDefinition:
-                kind: Namespace
                 apiVersion: v1
+                kind: Namespace
                 metadata:
                   name: techzone-boutique-test
             - complianceType: musthave
@@ -88,8 +102,8 @@ spec:
                     name: techzone-multiarch-demo
             - complianceType: musthave
               objectDefinition:
-                kind: Namespace
                 apiVersion: v1
+                kind: Namespace
                 metadata:
                   name: techzone-boutique-prod
             - complianceType: musthave
