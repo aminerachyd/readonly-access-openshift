@@ -66,7 +66,7 @@ spec:
           serviceAccountName: configure-users-sa
           containers:
             - name: set-permissions
-              image: quay.io/aminerachyd/ro-users-k8s:0.0.5
+              image: quay.io/aminerachyd/ro-users-k8s:0.0.6
               command:
                 - /bin/sh
                 - -c
