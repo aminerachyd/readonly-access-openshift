@@ -53,12 +53,12 @@ metadata:
   name: users-read-only-workspace
   namespace: ${var.project}
 spec:
-  ## Every 5 minutes
-  #schedule: "*/5 * * * *"
+  # Every 5 minutes
+  schedule: "*/5 * * * *"
   ## Every minute
-  schedule: "* * * * *"
-  successfulJobsHistoryLimit: 0
-  failedJobsHistoryLimit: 0
+  #schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
